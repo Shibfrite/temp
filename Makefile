@@ -8,11 +8,8 @@ HEAD := $(PRINTF_DIR)/ft_printf.h
 SRCS := ft_printf.c process_number.c process_string.c handle_format.c ft_padding.c ft_padding_supp.c
 
 SRCS := $(addprefix $(PRINTF_DIR), $(SRCS))
-
-BONUS_SRCS := $(SRCS)
-BONUS_OBJS := $(BONUS_SRCS:.c=.o)
-
 OBJS := $(SRCS:.c=.o)
+
 
 LIBFT_DIR := libft
 LIBFT := $(LIBFT_DIR)/libft.a
@@ -35,10 +32,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@ranlib $(NAME)
 	@echo "ft_printf: compiled library"
 
-bonus: $(OBJS) $(BONUS_OBJS)
-	@$(AR) $(NAME) $^
-	@ranlib $(NAME)
-	@echo "ft_printf: compiled bonus"
+bonus: $(NAME)
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean

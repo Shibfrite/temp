@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 18:55:21 by makurek           #+#    #+#             */
-/*   Updated: 2024/11/18 20:16:30 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/18 21:43:11 by makurek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,32 @@ static void	adjust_content_length(t_format *fmt, int *content_len, int is_zero)
 		fmt->width -= 2;
 }
 
+static void	handle_var2_condition(t_format *fmt, int *content_len, int *var)
+{
+	if (fmt->specifier == 's' && fmt->precision != -1 && !GNU_COMPAT)
+	{
+		if (fmt->precision < 6)
+		{
+			*content_len = fmt->precision;
+			*var = 1;
+		}
+	}
+	else if (fmt->precision == 1)
+		fmt->precision = -3;
+}
+
+static void	adjust_width(t_format *fmt, int content_len)
+{
+	if (fmt->specifier != 's' && (fmt->precision != -1 && fmt->precision != -3))
+		fmt->width -= content_len + fmt->precision;
+	else if (fmt->width > content_len)
+		fmt->width -= content_len;
+	else
+		fmt->width = 0;
+	if (fmt->width < 0)
+		fmt->width = 0;
+}
+
 void	calculate_padding(t_format *fmt, va_list args)
 {
 	va_list	copy_args;
@@ -68,27 +94,9 @@ void	calculate_padding(t_format *fmt, va_list args)
 	content_len = get_content_length(fmt, copy_args);
 	var2 = va_arg(copy_args2, int) == 0;
 	if (var2)
-	{
-		if (fmt->specifier == 's' && fmt->precision != -1 && !GNU_COMPAT)
-		{
-			if (fmt->precision < 6)
-			{
-				content_len = fmt->precision;
-				var = 1;
-			}
-		}
-		else if (fmt->precision == 1)
-			fmt->precision = -3;
-	}
+		handle_var2_condition(fmt, &content_len, &var);
 	if (!var)
 		adjust_content_length(fmt, &content_len, fmt->precision == -3);
-	if (fmt->specifier != 's' && (fmt->precision != -1 && fmt->precision != -3))
-		fmt->width -= content_len + fmt->precision;
-	else if (fmt->width > content_len)
-		fmt->width -= content_len;
-	else
-		fmt->width = 0;
-	if (fmt->width < 0)
-		fmt->width = 0;
+	adjust_width(fmt, content_len);
 	va_end(copy_args);
 }
