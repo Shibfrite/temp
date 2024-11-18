@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>					 +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/10/21 14:08:12 by makurek		   #+#	#+#			 */
-/*   Updated: 2024/11/07 19:45:38 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/18 19:59:25 by makurek          ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	process_string(const char *str, t_format *fmt)
 
 	if (!str)
 	{
-		if (fmt->precision == -1 || fmt->precision >= 6)
+		if (fmt->precision == -1 || fmt->precision >= 6 || !GNU_COMPAT)
 			str = NULSTR;
 		else
 			str = "";

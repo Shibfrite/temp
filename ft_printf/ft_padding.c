@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 18:55:21 by makurek           #+#    #+#             */
-/*   Updated: 2024/11/18 16:45:01 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/18 20:16:30 by makurek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,29 @@ void	calculate_padding(t_format *fmt, va_list args)
 	va_list	copy_args;
 	va_list	copy_args2;
 	int		content_len;
+	int		var;
+	int		var2;
 
+	var = 0;
 	va_copy(copy_args, args);
 	va_copy(copy_args2, args);
 	content_len = get_content_length(fmt, copy_args);
-	if ((va_arg(copy_args2, int) == 0) && fmt->precision == 1)
-		fmt->precision = -3;
-	adjust_content_length(fmt, &content_len, fmt->precision == -3);
+	var2 = va_arg(copy_args2, int) == 0;
+	if (var2)
+	{
+		if (fmt->specifier == 's' && fmt->precision != -1 && !GNU_COMPAT)
+		{
+			if (fmt->precision < 6)
+			{
+				content_len = fmt->precision;
+				var = 1;
+			}
+		}
+		else if (fmt->precision == 1)
+			fmt->precision = -3;
+	}
+	if (!var)
+		adjust_content_length(fmt, &content_len, fmt->precision == -3);
 	if (fmt->specifier != 's' && (fmt->precision != -1 && fmt->precision != -3))
 		fmt->width -= content_len + fmt->precision;
 	else if (fmt->width > content_len)

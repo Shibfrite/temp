@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:42:04 by makurek           #+#    #+#             */
-/*   Updated: 2024/11/18 16:45:11 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/18 17:02:43 by makurek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@
 # define BUFFER_SIZE 1000000 
 
 # ifdef __linux__
+#  define GNU_COMPAT 1 
 #  define OSENV "linux"
 #  define NULPTR "(nil)"
 #  define NULSTR "(null)"
 # endif
 # ifdef __APPLE__
+#  define GNU_COMPAT 0 
 #  define OSENV "apple"
 #  define NULPTR "0x0"
 #  define NULSTR "(null)"

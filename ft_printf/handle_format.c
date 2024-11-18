@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:23:36 by makurek           #+#    #+#             */
-/*   Updated: 2024/11/07 19:16:41 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/18 21:10:37 by makurek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static unsigned long	get_arg_value(va_list args, char specifier)
 static int	process_string_or_char(t_format *fmt, va_list args)
 {
 	const char	*str;
+	char	str2[2];
 	int			c;
 
 	if (fmt->specifier == 's')
@@ -47,8 +48,12 @@ static int	process_string_or_char(t_format *fmt, va_list args)
 	}
 	else if (fmt->specifier == '%')
 	{
-		c = '%';
-		return (process_char(c, fmt));
+		str2[0] = '%';
+		str2[1] = '\0'; 
+		if (GNU_COMPAT)
+			return (process_char(str2[0], fmt));
+		if (!GNU_COMPAT)
+			return (process_string(str2, fmt));
 	}
 	return (0);
 }
