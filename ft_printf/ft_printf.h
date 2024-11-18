@@ -24,6 +24,32 @@
 
 # define BUFFER_SIZE 1000000 
 
+# ifdef __linux__
+#  define OSENV "linux"
+#  define NULPTR "(nil)"
+#  define NULSTR "(null)"
+# endif
+# ifdef __APPLE__
+#  define OSENV "apple"
+#  define NULPTR "0x0"
+#  define NULSTR "(null)"
+# endif
+# ifdef __WIN32
+#  define OSENV "win32"
+#  define NULPTR "(null)"
+#  define NULSTR "(null)"
+# endif
+# ifdef __WIN64
+#  define OSENV "win64"
+#  define NULPTR "(null)"
+#  define NULSTR "(null)"
+# endif
+# ifndef OSENV
+#  define OSENV "unknown"
+#  define NULPTR "(null)"
+#  define NULSTR "(null)"
+# endif
+
 typedef struct s_list
 {
 	void			*content;

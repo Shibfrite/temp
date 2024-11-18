@@ -37,7 +37,7 @@ int	process_string(const char *str, t_format *fmt)
 	if (!str)
 	{
 		if (fmt->precision == -1 || fmt->precision >= 6)
-			str = "(null)";
+			str = NULSTR;
 		else
 			str = "";
 	}

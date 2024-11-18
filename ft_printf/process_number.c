@@ -94,7 +94,7 @@ int	process_number(unsigned long n, const char *base, t_format *fmt)
 	char	buffer[BUFFER_SIZE];
 
 	if (fmt->specifier == 'p' && n == 0)
-		return (process_string("(nil)", fmt));
+		return (process_string(NULPTR, fmt));
 	i = init_and_convert(buffer, n, base, fmt);
 	apply_flags(buffer, n, fmt, &i);
 	return (write(1, &buffer[i], BUFFER_SIZE - 1 - i));
