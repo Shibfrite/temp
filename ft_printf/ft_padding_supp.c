@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>					 +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/10/21 15:41:32 by makurek		   #+#	#+#			 */
-/*   Updated: 2024/11/07 19:45:42 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/18 16:45:03 by makurek          ###   ########.fr       */
 /*																		*/
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	handle_pointer(va_list args)
 
 	n_unsigned_ptr = va_arg(args, unsigned long);
 	if (!n_unsigned_ptr)
-		return (ft_strlen("(nil)"));
+		return (ft_strlen(NULPTR));
 	return (ft_numlen(n_unsigned_ptr, 16) + 2);
 }
 
@@ -66,7 +66,7 @@ int	handle_string(va_list args, int precision)
 	if (!str)
 	{
 		if (precision == -1 || precision >= 6)
-			str = "(null)";
+			str = NULSTR;
 		else
 			str = "";
 	}
