@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 18:55:21 by makurek           #+#    #+#             */
-/*   Updated: 2024/11/18 21:43:11 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/19 19:15:41 by makurek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	get_content_length(t_format *fmt, va_list copy_args)
 
 static void	adjust_content_length(t_format *fmt, int *content_len, int is_zero)
 {
-	if (fmt->specifier != 's' && fmt->precision != -1 && !is_zero)
+	if (fmt->specifier != 's' && fmt->precision != -1 && (!is_zero || fmt->precision != -3))
 	{
 		if (fmt->precision > *content_len)
 			fmt->precision -= *content_len;
@@ -50,9 +50,11 @@ static void	adjust_content_length(t_format *fmt, int *content_len, int is_zero)
 	}
 	if ((fmt->negative || fmt->plus || fmt->space) && fmt->specifier != 's')
 		fmt->width--;
-	if ((fmt->hash && ft_strchr("xX", fmt->specifier)))
+	if ((fmt->hash && !is_zero && ft_strchr("xX", fmt->specifier)))
+	{
 		fmt->width -= 2;
-}
+	}
+}	
 
 static void	handle_var2_condition(t_format *fmt, int *content_len, int *var)
 {
@@ -66,6 +68,8 @@ static void	handle_var2_condition(t_format *fmt, int *content_len, int *var)
 	}
 	else if (fmt->precision == 1)
 		fmt->precision = -3;
+	else if (ft_strchr("xX", fmt->specifier) && fmt->hash)
+		*var = 2;
 }
 
 static void	adjust_width(t_format *fmt, int content_len)
@@ -97,6 +101,8 @@ void	calculate_padding(t_format *fmt, va_list args)
 		handle_var2_condition(fmt, &content_len, &var);
 	if (!var)
 		adjust_content_length(fmt, &content_len, fmt->precision == -3);
+	if (var == 2)
+		adjust_content_length(fmt, &content_len, 1);
 	adjust_width(fmt, content_len);
-	va_end(copy_args);
+	va_end(copy_args);	
 }
