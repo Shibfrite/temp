@@ -6,7 +6,7 @@
 /*   By: makurek <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 18:55:21 by makurek           #+#    #+#             */
-/*   Updated: 2024/11/19 19:15:41 by makurek          ###   ########.fr       */
+/*   Updated: 2024/11/19 19:37:34 by makurek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int	get_content_length(t_format *fmt, va_list copy_args)
 
 static void	adjust_content_length(t_format *fmt, int *content_len, int is_zero)
 {
-	if (fmt->specifier != 's' && fmt->precision != -1 && (!is_zero || fmt->precision != -3))
+	if (fmt->specifier != 's' && fmt->precision != -1
+		&& (!is_zero || fmt->precision != -3))
 	{
 		if (fmt->precision > *content_len)
 			fmt->precision -= *content_len;
@@ -104,5 +105,5 @@ void	calculate_padding(t_format *fmt, va_list args)
 	if (var == 2)
 		adjust_content_length(fmt, &content_len, 1);
 	adjust_width(fmt, content_len);
-	va_end(copy_args);	
+	va_end(copy_args);
 }
