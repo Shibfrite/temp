@@ -1,0 +1,16 @@
+Error in test 3: get_next_line(5: "read_error.txt"): expected: <NULL>, got: "cccccccccc\n"
+Probable reason: You should clear the static buffer when a call to read returns -1
+Error in test 3: get_next_line(5: "read_error.txt"): expected: <NULL>, got: "cc\n"
+Error in test 4: get_next_line(5: "read_error.txt"): expected: "aaaaaaaaaa\n", got:
+"dddddddaaaaaaaaaa\n"
+Probable reason: You should clear the static buffer when a call to read returns -1
+Error in test 3: get_next_line(5: "read_error.txt"): expected: <NULL>, got: "cccccccccc\n"
+Probable reason: You should clear the static buffer when a call to read returns -1
+Error in test 3: get_next_line(5: "read_error.txt"): expected: <NULL>, got: "cc\n"
+Error in test 4: get_next_line(5: "read_error.txt"): expected: "aaaaaaaaaa\n", got:
+"dddddddaaaaaaaaaa\n"
+Probable reason: You should clear the static buffer when a call to read returns -1
+Error in test 5: get_next_line(5: "open, error, open"): expected: <NULL>, got: "cccccccccc\n"
+Error in test 5: get_next_line(5: "open, error, open"): expected: <NULL>, got: "cc\n"
+Error in test 7: get_next_line(5: "open, error, open"): expected: "aaaaaaaaaa\n", got:
+"dddddddaaaaaaaaaa\n"
